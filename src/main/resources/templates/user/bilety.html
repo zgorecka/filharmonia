@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main User Page</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg py-4 navbar-dark sticky-top" style="background-color: #000000;">
+    <div class="container-fluid ml-5">
+        <a class="navbar-brand">
+            <img class="d-bloc" src="images/logo.png"  height="36">
+        </a>
+
+        <a class="navbar-brand" href="/"><h1>Filharmonia</h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mr-5" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index"><h5>Home</h5>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main}"><h5>Main</h5></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/koncerty}"><h5>Koncerty</h5></a></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main}"><h5>Orkiestry</h5></a></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/main_user"><h5>Panel użytkownika</h5></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><h5>Bilety</h5></a>
+                    <span class="sr-only">(current)</span>
+                </li>
+
+                <li class="nav-item">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn btn-light" type="submit" onclick="successfullyLogout()" value="Sign Out"><h5>Wyloguj się</h5>
+                        </button>
+                    </form>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Data koncertu</th>
+            <th scope="col">Tytuł koncertu</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Edycja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each = "bilet : ${listBilet}">
+            <td th:text = "${bilet.koncert.data}"></td>
+            <td th:text = "${bilet.koncert.tytul}"></td>
+            <td th:text = "${bilet.cena}"></td>
+            <td>
+                <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" style="background-color: #B8860B;">
+                    Zwróć bilet</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Czy na pewno chcesz zwrócić bilet?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Gdy klikniesz Zatwierdź zmiany zostaną wprowadzone.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                                <a type="button" class="btn btn-dark" style="background-color: #B8860B;" th:href="@{'/' + ${bilet.id_klienta} + '/delete/' + ${bilet.id_biletu}}">
+                                    Zatwierdź</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+</div>
+</body>
+</html>

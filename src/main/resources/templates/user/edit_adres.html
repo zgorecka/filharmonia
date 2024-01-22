@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main User Page</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg py-4 navbar-dark sticky-top" style="background-color: #000000;">
+    <div class="container-fluid ml-5">
+        <a class="navbar-brand">
+            <img class="d-bloc" src="images/logo.png"  height="36">
+        </a>
+
+        <a class="navbar-brand" href="/"><h1>Filharmonia</h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mr-5" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index"><h5>Home</h5>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main}"><h5>Main</h5></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/koncerty}"><h5>Koncerty</h5></a></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main}"><h5>Orkiestry</h5></a></a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/main_user"><h5>Panel użytkownika</h5>
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" type="submit" th:href="@{'/bilety/' + ${klient.id_klienta}}"><h5>Bilety</h5></a>
+                </li>
+
+                <li class="nav-item">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn btn-light" type="submit" onclick="successfullyLogout()" value="Sign Out"><h5>Wyloguj się</h5>
+                        </button>
+                    </form>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-10 mt-5">
+            <form method="post" th:action="@{/index}">
+                <div class="form-group">
+                    <label style="font-size:30px" th:inline="text">Dane użytkownika</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="container" th:object = "${klient}">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="my-4">
+                <form method="post" th:action="@{'/edit_dane/' + ${klient.id_klienta}}">
+                    <hr class="my-4" />
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="imie">Imię</label>
+                            <input type="text" id="imie" class="form-control" th:field="*{imie}" disabled readonly/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nazwisko">Nazwisko</label>
+                            <input type="text" id="nazwisko" class="form-control" th:field="*{nazwisko}" disabled readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" th:field="*{email}" disabled readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="numer_telefonu">Numer telefonu</label>
+                        <input type="text" class="form-control" id="numer_telefonu" th:field="*{numer_telefonu}" disabled readonly/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" th:object = "${adres}">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="my-4">
+                <form method="post" th:action="@{/update_adres}">
+                    <input type="hidden" id="id_adres" th:field="*{id_adres}"/>
+                    <input type="hidden" id="id_poczty" th:field="*{id_poczty}"/>
+                    <hr class="my-4" />
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for=kraj>Kraj</label>
+                            <input type="text" id="kraj" class="form-control" th:field="*{kraj}"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="miasto">Miasto</label>
+                            <input type="text" id="miasto" class="form-control" th:field="*{miasto}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ulica">Ulica</label>
+                        <input type="text" class="form-control" id="ulica" th:field="*{ulica}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="numer_budynku">Numer budynku</label>
+                        <input type="text" class="form-control" id="numer_budynku" th:field="*{numer_budynku}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="numer_lokalu">Numer lokalu</label>
+                        <input type="text" class="form-control" id="numer_lokalu" th:field="*{numer_lokalu}"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark" style="background-color: #B8860B; border-color:#B8860B;">Zapisz zmiany</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+</div>
+</body>
+</html>
