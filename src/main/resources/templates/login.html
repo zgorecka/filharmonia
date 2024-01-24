@@ -2,10 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login Page</title>
     <link rel="icon" type="image/x-icon" href="/assets/img/iluminati.png">
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            flex: 1;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 
 </head>
 <body>
@@ -46,9 +67,6 @@
                 <li class="nav-item">
                     <a class="btn btn-light" role="button" th:href="@{/main}"><h5>Zaloguj się</h5></a></a>
                 </li>
-
-
-
             </ul>
         </div>
     </div>
@@ -79,13 +97,32 @@
 
                 <button class="btn btn-primary" type="submit" value="Sign In">Login</button>
             </form>
-
-
-
         </div>
     </div>
 </div>
 
+<footer class="fixed-bottom text-white py-4 mt-5" style="background-color: #000000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Miejsce na logo -->
+                <img src="images/logo.png" alt="Logo" class="img-fluid" style="width: 100px; height: 100px">
+            </div>
+            <div class="col-md-3">
+                <!-- Adres -->
+                <h5>Adres</h5>
+                <p>ul. Filharmonijna 123</p>
+                <p>00-381 Warszawa</p>
+            </div>
+            <div class="col-md-3">
+                <!-- Dane kontaktowe -->
+                <h5>Kontakt</h5>
+                <p>Telefon: +48 123 456 789</p>
+                <p>Email: kontakt@filharmonia.com</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

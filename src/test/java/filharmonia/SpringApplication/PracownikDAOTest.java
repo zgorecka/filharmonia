@@ -42,7 +42,7 @@ class PracownikDAOTest {
         pracownik.setId_pracownika(5);
         pracownik.setImie("Rafał");
         pracownik.setNazwisko("Piątkowski");
-        pracownik.setData_urodzenia("13/JAN/24");
+        pracownik.setData_urodzenia("03/JAN/24");
         pracownik.setId_filharmonii(4);
         pracownik.setId_adres(4);
         pracownik.setPesel("435345");

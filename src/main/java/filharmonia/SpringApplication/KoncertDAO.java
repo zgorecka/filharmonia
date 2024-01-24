@@ -44,7 +44,7 @@ public class KoncertDAO {
     /* Read – odczytywanie danych z bazy */
     public Koncert get(int id_koncertu) {
         Object arg = id_koncertu;
-        String sql = "SELECT * FROM Klienci WHERE id_klienta = " + arg.toString();
+        String sql = "SELECT * FROM Koncerty WHERE id_koncertu = " + arg.toString();
         Koncert koncert = jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Koncert.class));
 
         return koncert;

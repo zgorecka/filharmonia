@@ -38,7 +38,7 @@ public class AdresDAO {
     }
 
     public void update(Adres adres){
-        String sql = "UPDATE ADRESY SET kraj=:kraj, miasto=:miasto, ulica=:ulica, numer_budynku=:numer_budynku, numer_lokalu=:numer_lokalu, id_poczty=:id_poczty WHERE id_adres=:id_adres";
+        String sql = "UPDATE ADRESY SET kraj=:kraj, miasto=:miasto, ulica=:ulica, numer_budynku=:numer_budynku, numer_lokalu=:numer_lokalu WHERE id_adres=:id_adres";
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(adres);
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 

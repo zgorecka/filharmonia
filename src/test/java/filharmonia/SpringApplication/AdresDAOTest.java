@@ -33,7 +33,7 @@ class AdresDAOTest {
 
     @Test
     void get() {
-        Adres adres = dao.get(4);
+        Adres adres = dao.get(21);
         System.out.println(adres);
         assertNotNull(adres);
     }

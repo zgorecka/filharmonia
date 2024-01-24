@@ -75,20 +75,30 @@
             <th scope="col">PESEL</th>
             <th scope="col">Data zatrudnienia</th>
             <th scope="col">Data zwolnienia</th>
-            <th scope="col"><button class="btn btn-success">Dodaj pracownika</button></th>
+            <th scope="col">Kraj</th>
+            <th scope="col">Misto</th>
+            <th scope="col">Ulica</th>
+            <th scope="col">Nr budynku</th>
+            <th scope="col">nr lokalu</th>
+            <th scope="col"><button class="btn btn-success" data-toggle="modal" data-target="#createPracownikAdres">Dodaj pracownika</button></th>
         </tr>
         </thead>
         <tbody class="text-dark bg-white">
         <tr th:each = "pracownik, iteracja: ${listPracownik}">
             <td th:text = "${pracownik.id_pracownika}">ID pracownika</td>
             <td th:text = "${pracownik.imie}">Imię</td>
-            <td th:text = "${pracownik.drugie_imie}">Drugie imię</td>
+            <td><span th:if="${pracownik.drugie_imie != null}" th:text="${pracownik.drugie_imie}">Drugie imie</span></td>
             <td th:text = "${pracownik.nazwisko}">Nazwisko</td>
             <td th:text = "${pracownik.data_urodzenia}">Data urodzenia</td>
             <td th:text = "${pracownik.plec}">Płeć</td>
             <td th:text = "${pracownik.pesel}">PESEL</td>
-            <td th:text = "${pracownik.data_zatrudnienia}">Data zatrudnienia</td>
-            <td th:text = "${pracownik.data_zwolnienia}">Data zwolnienia</td>
+            <td th:text="${pracownik.data_zatrudnienia}"></td>
+            <td><span th:if="${pracownik.data_zwolnienia != null}" th:text="${pracownik.data_zwolnienia}"></span></td>
+            <td th:text = "${pracownik.kraj}">Kraj</td>
+            <td th:text = "${pracownik.miasto}">Miasto</td>
+            <td th:text = "${pracownik.ulica}">Ulica</td>
+            <td><span th:if="${pracownik.numer_budynku != null}" th:text="${pracownik.numer_budynku}"></span></td>
+            <td><span th:if="${pracownik.numer_lokalu != null}" th:text="${pracownik.numer_lokalu}"></span></td>
             <td><button class="btn btn-primary mr-1"  data-toggle="modal" data-row="${pracownik}" th:attr="data-target=${'#editModal'+pracownik.id_pracownika}">Edytuj</button>
                 <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" th:attr="data-id=${pracownik.id_pracownika}">Usuń</button>
 
@@ -129,42 +139,74 @@
                                     <input type="text" id="id_pracownika" th:value="${listPracownik[__${iteracja.index}__].getId_pracownika()}" th:name="id_pracownika"/>
                                     <input type="hidden" id="id_filharmonii" th:value="${listPracownik[__${iteracja.index}__].getId_filharmonii()}" th:name="Id_filharmonii"/>
                                     <input type="hidden" id="id_adres" th:value="${listPracownik[__${iteracja.index}__].getId_adres()}" th:name="id_adres"/>
+                                    <input type="hidden" id="id_poczty" th:value="${listPracownik[__${iteracja.index}__].getId_poczty()}" th:name="id_poczty"/>
                                     <div class="form-group">
                                         <label for="nazwisko">Imię</label>
-                                        <input type="text" class="form-control" id="imie" th:value="${listPracownik[__${iteracja.index}__].getImie()}" th:name="imie">
+                                        <input type="text" class="form-control" id="imie" th:value="${listPracownik[__${iteracja.index}__].getImie()}" th:name="imie" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="drugie_imie">Drugie imię</label>
-                                        <input type="text" class="form-control" id="drugie_imie" th:value="${listPracownik[__${iteracja.index}__].getDrugie_imie()}" th:name="drugie_imie">
+                                        <input type="text" class="form-control" id="drugie_imie" th:value="${listPracownik[__${iteracja.index}__].getDrugie_imie()}" th:name="drugie_imie" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+">
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="nazwisko">Nazwisko</label>
-                                        <input type="text" class="form-control" id="nazwisko" th:value="${listPracownik[__${iteracja.index}__].getNazwisko()}" th:name="nazwisko">
+                                        <input type="text" class="form-control" id="nazwisko" th:value="${listPracownik[__${iteracja.index}__].getNazwisko()}" th:name="nazwisko" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="data_urodzenia">Data urodzenia</label>
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type="date" class="form-control" id="data_urodzenia" th:value="${listPracownik[__${iteracja.index}__].getData_urodzeniaString()}" th:name="data_urodznia" oninput="formatDate(this)">
-                                        </div>
+                                        <input type="date" class="form-control" id="data_urodzenia" th:value="${listPracownik[__${iteracja.index}__].getData_urodzeniaDate()}" th:name="data_urodzenia" required>
+                                        <div class="invalid-feedback">Wprowadź datę urodzenia.</div>
                                     </div>
-
 
                                     <div class="form-group">
                                         <label for="plec">Płeć</label>
-                                        <input type="text" class="form-control" id="plec" th:value="${listPracownik[__${iteracja.index}__].getPlec()}" th:name="plec">
+                                        <select class="form-select" id="plec" th:value="${listPracownik[__${iteracja.index}__].getPlec()}" th:name="plec" required>
+                                            <option value="M">Mężczyzna</option>
+                                            <option value="K">Kobieta</option>
+                                        </select>
+                                        <div class="invalid-feedback">Wybierz płeć.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="pesel">PESEL</label>
-                                        <input type="text" class="form-control" id="pesel" th:value="${listPracownik[__${iteracja.index}__].getPesel()}" th:name="pesel">
+                                        <input type="text" class="form-control is-invalid" id="pesel" th:value="${listPracownik[__${iteracja.index}__].getPesel()}" th:name="pesel" pattern="[0-9]{11}" required>
+                                        <div class="invalid-feedback">PESEL powinien mieć 11 znaków.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="data_zatrudnienia">Data zatrudnienia</label>
-                                        <input type="date" class="form-control" id="data_zatrudnienia" th:value="${listPracownik[__${iteracja.index}__].getData_zatrudnienia()}" th:name="data_zatrudnienia" oninput="formatDate(this)">
+                                        <input type="date" class="form-control" id="data_zatrudnienia" th:value="${listPracownik[__${iteracja.index}__].getData_zatrudnieniaDate()}" th:name="data_zatrudnienia" required>
+                                        <div class="invalid-feedback">Wybierz datę zatrudnienia.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="data_zwolnienia">Data zwolnienia</label>
-                                        <input type="date" class="form-control" id="data_zwolnienia" th:value="${listPracownik[__${iteracja.index}__].getData_zwolnienia()}" th:name="data_zwolnienia" oninput="formatDate(this)">
+                                        <input type="date" class="form-control" id="data_zwolnienia" th:value="${listPracownik[__${iteracja.index}__].getData_zwolnieniaDate()}" th:name="data_zwolnienia">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pesel">Kraj</label>
+                                        <input type="text" class="form-control" id="kraj" th:value="${listPracownik[__${iteracja.index}__].getKraj()}" th:name="kraj" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pesel">Miasto</label>
+                                        <input type="text" class="form-control" id="miasto" th:value="${listPracownik[__${iteracja.index}__].getMiasto()}" th:name="miasto" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pesel">Ulica</label>
+                                        <input type="text" class="form-control" id="ulica" th:value="${listPracownik[__${iteracja.index}__].getUlica()}" th:name="ulica" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pesel">Numer budynku</label>
+                                        <input type="text" class="form-control" id="numer_budynku" th:value="${listPracownik[__${iteracja.index}__].getNumer_budynku()}" th:name="numer_budynku" required>
+                                        <div class="invalid-feedback">Wprowadź numer budynku.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pesel">Numer lokalu</label>
+                                        <input type="text" class="form-control" id="numer_lokalu" th:value="${listPracownik[__${iteracja.index}__].getNumer_lokalu()}" th:name="numer_lokalu">
                                     </div>
                                     <!-- Dodaj więcej pól formularza według potrzeb -->
                                     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
@@ -180,10 +222,108 @@
     </table>
 </div>
 
-<div th:each="pracownik : ${listPracownik}" th:attr="id=${'editModal' + pracownik.id_pracownika}">
+<div th:fragment="modal" class="modal fade" th:id="createPracownikAdres" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edycja Danych</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" th:action="@{/save_pracownik}" th:object="${pracownik_save}">
+
+                    <div class="form-group">
+                        <label for="imie">Imię</label>
+                        <input type="text" class="form-control" id="imie2" th:field = "*{imie}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                        <div class="invalid-feedback">Wprowadź tylko litery.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="drugie_imie">Drugie imię</label>
+                        <input type="text" class="form-control" id="drugie_imie2" th:field = "*{drugie_imie}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+">
+                    </div>
+                    <div class="form-group">
+                        <label for="nazwisko">Nazwisko</label>
+                        <input type="text" class="form-control" id="nazwisko2" th:field = "*{nazwisko}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data_urodzenia">Data urodzenia</label>
+                        <input type="date" class="form-control" id="data_urodzenia2" th:field = "*{data_urodzenia}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plec">Płeć</label>
+                        <select class="form-select" th:field = "*{plec}" required>
+                            <option value="M">Mężczyzna</option>
+                            <option value="K">Kobieta</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">PESEL</label>
+                        <input type="text" class="form-control" id="pesel2" th:field = "*{pesel}" pattern="[0-9]{11}" required>
+                        <div class="invalid-feedback">PESEL powinien mieć 11 znaków.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="data_zatrudnienia">Data zatrudnienia</label>
+                        <input type="date" class="form-control" id="data_zatrudnienia2" th:field = "*{data_zatrudnienia}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="data_zwolnienia">Data zwolnienia</label>
+                        <input type="date" class="form-control" id="data_zwolnienia2" th:field = "*{data_zwolnienia}">
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Kraj</label>
+                        <input type="text" class="form-control" id="kraj2" th:field = "*{kraj}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Miasto</label>
+                        <input type="text" class="form-control" id="miasto2" th:field = "*{miasto}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Ulica</label>
+                        <input type="text" class="form-control" id="ulica2" th:field = "*{ulica}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Numer budynku</label>
+                        <input type="text" class="form-control" id="numer_budynku2" th:field = "*{numer_budynku}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Numer lokalu</label>
+                        <input type="text" class="form-control" id="numer_lokalu2" th:field = "*{numer_lokalu}">
+                    </div>
+                    <!-- Dodaj więcej pól formularza według potrzeb -->
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 
+<footer class="text-white py-4 mt-5" style="background-color: #000000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Miejsce na logo -->
+                <img src="images/logo.png" alt="Logo" class="img-fluid" style="width: 100px; height: 100px">
+            </div>
+            <div class="col-md-3">
+                <!-- Adres -->
+                <h5>Adres</h5>
+                <p>ul. Filharmonijna 123</p>
+                <p>00-381 Warszawa</p>
+            </div>
+            <div class="col-md-3">
+                <!-- Dane kontaktowe -->
+                <h5>Kontakt</h5>
+                <p>Telefon: +48 123 456 789</p>
+                <p>Email: kontakt@filharmonia.com</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

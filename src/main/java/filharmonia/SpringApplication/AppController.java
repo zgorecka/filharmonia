@@ -1,7 +1,9 @@
 package filharmonia.SpringApplication;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,8 +15,10 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,8 +35,6 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/edit_dane").setViewName("user/edit_dane");
         registry.addViewController("/edit_adres").setViewName("user/edit_adres");
         registry.addViewController("/bilety").setViewName("user/bilety");
-
-
     }
 
     @Autowired
@@ -68,16 +70,26 @@ public class AppController implements WebMvcConfigurer {
     @RequestMapping("/main_admin")
     public String showAdminPage(Model model){
         List<Pracownik> listPracownik = daoPracownik.lsit();
-        /*
+        System.out.println("lista z app con show admin page");
+        System.out.println(listPracownik);
+
         for(Pracownik pracownik : listPracownik){
-            pracownik.setData_urodzenia(pracownik.getData_urodzenia().replaceAll(" .*", ""));
-            pracownik.setData_zatrudnienia(pracownik.getData_zatrudnienia().replaceAll(" .*", ""));
-            if (pracownik.getData_zwolnienia() != null){
-                pracownik.setData_zwolnienia(pracownik.getData_zwolnienia().replaceAll(" .*", ""));
-            }
-        }*/
+            Adres adres = daoAdres.get(pracownik.getId_adres());
+            pracownik.setKraj(adres.getKraj());
+            pracownik.setMiasto(adres.getMiasto());
+            pracownik.setUlica(adres.getUlica());
+            pracownik.setNumer_budynku(adres.getNumer_budynku());
+            pracownik.setNumer_lokalu(adres.getNumer_lokalu());
+            pracownik.setId_poczty(adres.getId_poczty());
+            System.out.println("app controller showAdminpage");
+            System.out.println(pracownik);
+        }
+
 
         model.addAttribute("listPracownik", listPracownik);
+
+        Pracownik pracownik_save = new Pracownik();
+        model.addAttribute("pracownik_save", pracownik_save);
 
         return "admin/main_admin";
     }
@@ -176,21 +188,86 @@ public class AppController implements WebMvcConfigurer {
 
     @RequestMapping(value = "/update_pracownik", method = RequestMethod.POST)
     public String updatePracownik(@ModelAttribute("pracownik") Pracownik pracownik){
-        System.out.println(pracownik);
-        System.out.println((pracownik.getData_urodzenia()));
-        //DateTimeFormatter fIn = DateTimeFormatter.ofPattern( "dd/MM/uuuu" , Locale.UK );
-        //LocalDate ld = LocalDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MMM/yy");
+        formatter = formatter.withLocale(Locale.UK);
 
-        //pracownik.setData_urodzenia(pracownik.getData_urodzenia().replaceAll(".", "/"));
-        //pracownik.setData_zatrudnienia(pracownik.getData_zatrudnienia().replaceAll(".", "/"));
-        //pracownik.setData_zwolnienia(pracownik.getData_zwolnienia().replaceAll(".", "/"));
+        LocalDate date_uro = LocalDate.parse(pracownik.getData_urodzenia(), formatter);
+        LocalDate date_zat = LocalDate.parse(pracownik.getData_zatrudnienia(), formatter);
+
+
+        pracownik.setData_urodzenia(date_uro.format(formatter2));
+        pracownik.setData_zatrudnienia(date_zat.format(formatter2));
+
+        if(pracownik.getData_zwolnienia() == ""){
+            pracownik.setData_zwolnienia("");
+        }else {
+            LocalDate date_zw = LocalDate.parse(pracownik.getData_zwolnienia(), formatter);
+            pracownik.setData_zwolnienia(date_zw.format(formatter2));
+        }
+
+        Adres adres = new Adres();
+        adres.setId_adres(pracownik.getId_adres());
+        adres.setKraj(pracownik.getKraj());
+        adres.setMiasto(pracownik.getMiasto());
+        adres.setUlica(pracownik.getUlica());
+        adres.setNumer_budynku(pracownik.getNumer_budynku());
+        adres.setNumer_lokalu(pracownik.getNumer_lokalu());
+
+        System.out.println("z app con update pracownik");
+        System.out.println(pracownik);
+
         daoPracownik.update(pracownik);
+        daoAdres.update(adres);
 
 
         return "redirect:/main_admin";
     }
 
+    @RequestMapping(value = "/save_pracownik", method = RequestMethod.POST)
+    public String savePracownik(@ModelAttribute("pracownik") Pracownik pracownik){
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MMM/yy");
+        formatter = formatter.withLocale(Locale.UK);
+
+        LocalDate date_uro = LocalDate.parse(pracownik.getData_urodzenia(), formatter);
+        LocalDate date_zat = LocalDate.parse(pracownik.getData_zatrudnienia(), formatter);
+
+
+        pracownik.setData_urodzenia(date_uro.format(formatter2));
+        pracownik.setData_zatrudnienia(date_zat.format(formatter2));
+
+        if(pracownik.getData_zwolnienia() == ""){
+            pracownik.setData_zwolnienia("");
+        }else {
+            LocalDate date_zw = LocalDate.parse(pracownik.getData_zwolnienia(), formatter);
+            pracownik.setData_zwolnienia(date_zw.format(formatter2));
+        }
+
+        daoPracownik.savePracownikAdres(pracownik);
+
+        return "redirect:/main_admin";
+    }
+
+    @RequestMapping("/kup_bilet/{id_koncertu}")
+    public String kupBilet(@PathVariable(name = "id_koncertu") int id_koncertu){
+        Bilet bilet = new Bilet();
+
+        Koncert koncert = daoKoncert.get(id_koncertu);
+
+        bilet.setId_koncertu(id_koncertu);
+        bilet.setCena(koncert.getCena());
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yy");
+        String formattedString = date.format(formatter);
+        bilet.setData_zakupu(formattedString);
+        bilet.setId_klienta(1);
+
+        daoBilet.save(bilet);
+
+        return "redirect:/koncerty";
+    }
 
 
     @Controller

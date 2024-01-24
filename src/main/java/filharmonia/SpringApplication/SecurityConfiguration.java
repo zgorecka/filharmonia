@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit_dane").access("hasRole('USER')")
                 .antMatchers("/edit_dane/**").access("hasRole('USER')")
                 .antMatchers("/bilety/**").access("hasRole('USER')")
+                .antMatchers("/kup_bilet/**").access("hasRole('USER')")
 
                 .and()
                 .formLogin()

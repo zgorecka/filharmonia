@@ -3,6 +3,8 @@ package filharmonia.SpringApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,5 +41,14 @@ public class BiletDAO {
     public void delete(int id_biletu){
         String sql = "DELETE FROM BILETY WHERE id_biletu = ?";
         jdbcTemplate.update(sql, id_biletu);
+    }
+
+    public void save(Bilet bilet){
+        SimpleJdbcInsert insertAction = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("bilety")
+                .usingColumns("data_zakupu", "cena", "id_koncertu", "id_klienta");
+
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(bilet);
+        insertAction.execute(param);
     }
 }
