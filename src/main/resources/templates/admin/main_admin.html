@@ -40,9 +40,6 @@
                     <a class="nav-link" th:href="@{/koncerty}"><h5>Koncerty</h5></a></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/main}"><h5>Orkiestry</h5></a></a>
-                </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/main_admin"><h5>Panel administratora</h5>
@@ -100,10 +97,10 @@
             <td><span th:if="${pracownik.numer_budynku != null}" th:text="${pracownik.numer_budynku}"></span></td>
             <td><span th:if="${pracownik.numer_lokalu != null}" th:text="${pracownik.numer_lokalu}"></span></td>
             <td><button class="btn btn-primary mr-1"  data-toggle="modal" data-row="${pracownik}" th:attr="data-target=${'#editModal'+pracownik.id_pracownika}">Edytuj</button>
-                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" th:attr="data-id=${pracownik.id_pracownika}">Usuń</button>
+                <button class="btn btn-danger" data-toggle="modal" th:attr="data-target=${'#exampleModal' +pracownik.id_pracownika}">Usuń</button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" th:id="'exampleModal' + ${pracownik.id_pracownika}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" th:object="${listPracownik[__${iteracja.index}__]}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -117,7 +114,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-dismiss="modal">Anuluj</button>
-                                <a type="button" class="btn btn-danger" th:href="@{'/delete_pracownik/' + ${pracownik.id_pracownika}}">
+                                <a type="submit" class="btn btn-danger" th:href="@{'/delete_pracownik/' + ${listPracownik[__${iteracja.index}__].getId_pracownika()}}">
                                     Zatwierdź</a>
                             </div>
                         </div>
@@ -136,7 +133,7 @@
                             </div>
                             <div class="modal-body">
                                 <form method="post" th:action="@{/update_pracownik}" th:object="${listPracownik[__${iteracja.index}__]}">
-                                    <input type="text" id="id_pracownika" th:value="${listPracownik[__${iteracja.index}__].getId_pracownika()}" th:name="id_pracownika"/>
+                                    <input type="hidden" id="id_pracownika" th:value="${listPracownik[__${iteracja.index}__].getId_pracownika()}" th:name="id_pracownika"/>
                                     <input type="hidden" id="id_filharmonii" th:value="${listPracownik[__${iteracja.index}__].getId_filharmonii()}" th:name="Id_filharmonii"/>
                                     <input type="hidden" id="id_adres" th:value="${listPracownik[__${iteracja.index}__].getId_adres()}" th:name="id_adres"/>
                                     <input type="hidden" id="id_poczty" th:value="${listPracownik[__${iteracja.index}__].getId_poczty()}" th:name="id_poczty"/>

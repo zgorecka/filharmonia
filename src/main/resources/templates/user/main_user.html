@@ -39,14 +39,11 @@
                     <a class="nav-link" th:href="@{/koncerty}"><h5>Koncerty</h5></a></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/main}"><h5>Orkiestry</h5></a></a>
-                </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/main_user"><h5>Panel użytkownika</h5>
                         <span class="sr-only">(current)</span>
-                    </a>
+                    </a>'
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" type="submit" th:href="@{'/bilety/' + ${klient.id_klienta}}"><h5>Bilety</h5></a>
@@ -111,6 +108,20 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-10 mt-5">
+                <form method="post" th:action="@{/index}">
+                    <div class="form-group">
+                        <label style="font-size:30px" th:inline="text">Adres użytkownika</label>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 
