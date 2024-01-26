@@ -120,24 +120,24 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for=kraj>Kraj</label>
-                            <input type="text" id="kraj" class="form-control" th:field="*{kraj}"/>
+                            <input type="text" id="kraj" class="form-control" th:field="*{kraj}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required/>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="miasto">Miasto</label>
-                            <input type="text" id="miasto" class="form-control" th:field="*{miasto}"/>
+                            <input type="text" id="miasto" class="form-control" th:field="*{miasto}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ulica">Ulica</label>
-                        <input type="text" class="form-control" id="ulica" th:field="*{ulica}"/>
+                        <input type="text" class="form-control" id="ulica" th:field="*{ulica}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required/>
                     </div>
                     <div class="form-group">
                         <label for="numer_budynku">Numer budynku</label>
-                        <input type="text" class="form-control" id="numer_budynku" th:field="*{numer_budynku}"/>
+                        <input type="text" class="form-control" id="numer_budynku" th:field="*{numer_budynku}" pattern="[0-9]+" required/>
                     </div>
                     <div class="form-group">
                         <label for="numer_lokalu">Numer lokalu</label>
-                        <input type="text" class="form-control" id="numer_lokalu" th:field="*{numer_lokalu}"/>
+                        <input type="text" class="form-control" id="numer_lokalu" th:field="*{numer_lokalu}" pattern="[0-9]+" required/>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>

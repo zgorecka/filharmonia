@@ -89,20 +89,20 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="imie">Imię</label>
-                            <input type="text" id="imie" class="form-control" th:field="*{imie}"/>
+                            <input type="text" id="imie" class="form-control" th:field="*{imie}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required/>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="nazwisko">Nazwisko</label>
-                            <input type="text" id="nazwisko" class="form-control" th:field="*{nazwisko}"/>
+                            <input type="text" id="nazwisko" class="form-control" th:field="*{nazwisko}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" class="form-control" id="email" th:field="*{email}"/>
+                        <input type="text" class="form-control" id="email" th:field="*{email}" required/>
                     </div>
                     <div class="form-group">
                         <label for="numer_telefonu">Numer telefonu</label>
-                        <input type="text" class="form-control" id="numer_telefonu" th:field="*{numer_telefonu}"/>
+                        <input type="text" class="form-control" id="numer_telefonu" th:field="*{numer_telefonu}" pattern="[0-9+]+" required/>
                     </div>
                     <button type="submit" class="btn btn-primary">Zapisz zmiany
                     </button>
