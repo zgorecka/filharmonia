@@ -149,7 +149,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="nazwisko">Nazwisko</label>
-                                        <input type="text" class="form-control" id="nazwisko" th:value="${listPracownik[__${iteracja.index}__].getNazwisko()}" th:name="nazwisko" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <input type="text" class="form-control" id="nazwisko" th:value="${listPracownik[__${iteracja.index}__].getNazwisko()}" th:name="nazwisko" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                                         <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
 
@@ -162,14 +162,14 @@
                                     <div class="form-group">
                                         <label for="plec">Płeć</label>
                                         <select class="form-select" id="plec" th:value="${listPracownik[__${iteracja.index}__].getPlec()}" th:name="plec" required>
-                                            <option value="M">Mężczyzna</option>
-                                            <option value="K">Kobieta</option>
+                                            <option value="M" th:selected="${listPracownik[__${iteracja.index}__].getPlec() == 'M'}" >Mężczyzna</option>
+                                            <option value="K" th:selected="${listPracownik[__${iteracja.index}__].getPlec() == 'K'}">Kobieta</option>
                                         </select>
                                         <div class="invalid-feedback">Wybierz płeć.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="pesel">PESEL</label>
-                                        <input type="text" class="form-control is-invalid" id="pesel" th:value="${listPracownik[__${iteracja.index}__].getPesel()}" th:name="pesel" pattern="[0-9]{11}" required>
+                                        <input type="text" class="form-control ${#fields.hasErrors('pesel')} ? 'is-invalid' : ''" id="pesel" th:value="${listPracownik[__${iteracja.index}__].getPesel()}" th:name="pesel" pattern="[0-9]{11}" required >
                                         <div class="invalid-feedback">PESEL powinien mieć 11 znaków.</div>
                                     </div>
                                     <div class="form-group">
@@ -183,17 +183,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="pesel">Kraj</label>
-                                        <input type="text" class="form-control" id="kraj" th:value="${listPracownik[__${iteracja.index}__].getKraj()}" th:name="kraj" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <input type="text" class="form-control" id="kraj" th:value="${listPracownik[__${iteracja.index}__].getKraj()}" th:name="kraj" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                                         <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="pesel">Miasto</label>
-                                        <input type="text" class="form-control" id="miasto" th:value="${listPracownik[__${iteracja.index}__].getMiasto()}" th:name="miasto" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <input type="text" class="form-control" id="miasto" th:value="${listPracownik[__${iteracja.index}__].getMiasto()}" th:name="miasto" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                                         <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="pesel">Ulica</label>
-                                        <input type="text" class="form-control" id="ulica" th:value="${listPracownik[__${iteracja.index}__].getUlica()}" th:name="ulica" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                                        <input type="text" class="form-control" id="ulica" th:value="${listPracownik[__${iteracja.index}__].getUlica()}" th:name="ulica" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                                         <div class="invalid-feedback">Wprowadź tylko litery.</div>
                                     </div>
                                     <div class="form-group">
@@ -242,7 +242,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nazwisko">Nazwisko</label>
-                        <input type="text" class="form-control" id="nazwisko2" th:field = "*{nazwisko}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                        <input type="text" class="form-control" id="nazwisko2" th:field = "*{nazwisko}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                     </div>
 
                     <div class="form-group">
@@ -272,15 +272,15 @@
                     </div>
                     <div class="form-group">
                         <label for="pesel">Kraj</label>
-                        <input type="text" class="form-control" id="kraj2" th:field = "*{kraj}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                        <input type="text" class="form-control" id="kraj2" th:field = "*{kraj}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                     </div>
                     <div class="form-group">
                         <label for="pesel">Miasto</label>
-                        <input type="text" class="form-control" id="miasto2" th:field = "*{miasto}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                        <input type="text" class="form-control" id="miasto2" th:field = "*{miasto}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                     </div>
                     <div class="form-group">
                         <label for="pesel">Ulica</label>
-                        <input type="text" class="form-control" id="ulica2" th:field = "*{ulica}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+" required>
+                        <input type="text" class="form-control" id="ulica2" th:field = "*{ulica}" pattern="[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż ]+" required>
                     </div>
                     <div class="form-group">
                         <label for="pesel">Numer budynku</label>
@@ -299,7 +299,7 @@
 
 </div>
 
-<footer class="text-white py-4 mt-5" style="background-color: #000000;">
+<footer class="text-white py-4 mt-5 fixed-bottom" style="background-color: #000000;">
     <div class="container">
         <div class="row">
             <div class="col-md-6">

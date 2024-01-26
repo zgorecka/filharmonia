@@ -37,6 +37,8 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/bilety").setViewName("user/bilety");
     }
 
+
+
     @Autowired
     private KoncertDAO daoKoncert;
 
@@ -238,7 +240,9 @@ public class AppController implements WebMvcConfigurer {
         pracownik.setData_urodzenia(date_uro.format(formatter2));
         pracownik.setData_zatrudnienia(date_zat.format(formatter2));
 
-        if(pracownik.getData_zwolnienia() == ""){
+        if(pracownik.getData_zwolnienia() == null){
+            pracownik.setData_zwolnienia(null);
+        }else if(pracownik.getData_zwolnienia() == ""){
             pracownik.setData_zwolnienia("");
         }else {
             LocalDate date_zw = LocalDate.parse(pracownik.getData_zwolnienia(), formatter);

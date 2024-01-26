@@ -80,7 +80,7 @@
             <td th:text = "${bilet.koncert.tytul}"></td>
             <td th:text = "${bilet.cena}"></td>
             <td>
-                <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" style="background-color: #B8860B;">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                     Zwróć bilet</button>
 
                 <!-- Modal -->
@@ -98,7 +98,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                                <a type="button" class="btn btn-dark" style="background-color: #B8860B;" th:href="@{'/' + ${bilet.id_klienta} + '/delete/' + ${bilet.id_biletu}}">
+                                <a type="button" class="btn btn-danger" th:href="@{'/' + ${bilet.id_klienta} + '/delete/' + ${bilet.id_biletu}}">
                                     Zatwierdź</a>
                             </div>
                         </div>

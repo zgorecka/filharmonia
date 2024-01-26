@@ -82,8 +82,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Gdy klikniesz Zatwierdź zmiany zostaną wprowadzone.
-                                <div th:text = "${koncert.cena}">Cena</div>
+                                <div th:text = "'Czy na pewno chcesz zakupić bilet? Kwota którą zostaniesz obciążony to: '+${koncert.cena} +' złotych'"></div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-dismiss="modal">Anuluj</button>
